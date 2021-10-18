@@ -1,0 +1,283 @@
+def cargar_archivo(nombre_archivo):
+  global preguntas
+
+  nombre = nombre_archivo + ".txt"
+
+  with open(nombre,"r") as archivo:
+    for linea in archivo:
+      preguntas.append(linea.split(","))
+
+  for pregunta in preguntas:
+    pregunta[-1] = pregunta [-1][0:-1]
+  
+  print(preguntas)
+  
+  def guardar_archivo(nombre_archivo):
+  global preguntas 
+
+  nombre = nombre_archivo + ".txt"
+
+  with open(nombre,"w") as archivo:
+    for pregunta in preguntas:
+      text_pregunta = ""
+
+      for i,p in enumerate(pregunta):
+        texto_pregunta = ""
+        if i != len(pregunta) - 1:
+          textoo_pregunta += ","
+        else:
+          texto_pregunta + "\n"
+      archivo.write(texto_pregunta)
+
+  guardar_archivo ()
+  
+  def main():
+
+  while True:
+
+    opcion = menu()
+
+    if opcion == 1:
+      registrar_pregunta()
+
+    elif opcion == 2:
+      actualizar_pregunta()
+
+    elif opcion == 3:
+      estudiar_area()
+
+    elif opcion == 4:
+      presentar_quiz()
+
+    elif opcion == 5:
+      reportar_calificaciones()
+
+    elif opcion == 6:
+      salir( )
+      break
+
+    else:
+      print("OPCION INCORRECTA")
+  
+
+
+
+main() 
+main()
+
+preguntas = [['1', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['2', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['3', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['4', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['5', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['6', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['7', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['8', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['9', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],''
+             ['10', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['11', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['12', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ]]
+
+def registrar_pregunta():
+
+  global preguntas
+  
+  print("Bienvenido a la opción para registrar preguntas, por favor sigue las instrucciones")
+  id_pregunta = input("Ingresa el ID de la pregunta: ")
+  enfoque = input("Ingresa el enfoque de la pregunta: Lectura, Matemáticas, Ciencias: ")
+  pregunta = input("Ingresa el texto de la pregunta: ")
+  respuestas = ""
+
+  for num in range(4):
+    respuesta = input("Ingresa la respuesta " + str(num + 1) + ": ")
+
+    if num == 3:
+      respuestas = respuestas + respuesta # string de respuesta 4, no lleva coma
+    else:
+      respuestas = respuestas + respuesta + "," # string de respuestas 1, 2, 3
+ 
+  respuestas = respuestas.split(",") # hacer una lista desde un string, cada elemento es separado por coma
+  
+  respuesta1, respuesta2, respuesta3, respuesta4 = respuestas # asignación múltiple de variables de una lista (elemento por elemento)
+
+  correcta = input("Ingresa la respuesta correcta:")
+
+  pregunta = [id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta]
+  
+  preguntas.append(pregunta)
+
+registrar_pregunta()
+
+def menu():
+
+  print("1. Alta de preguntas de prueba PISA (lectura, matemáticas, ciencias")
+  print("2. Actualizar preguntas de la prueba PISA (lectura, matemáticas, ciencias")
+  print("3. Estudiar preguntas de cierta área (lectura, matemáticas, ciencias")
+  print("4. Presentar un quiz (lectura, matemáticas, ciencias")
+  print("5. Reporte de calificaciones")
+  print("6. Salir")
+
+  opcion_menu = int(input("Que opcion quiere?"))
+
+  return opcion_menu
+
+menu()
+
+def actualizar_pregunta():
+ 
+  global preguntas
+  
+  print("Bienvenido a la opción para actualizar preguntas, por favor sigue las instrucciones \nA continuación se despliega la lista de preguntas guardadas\n")
+
+  for pregunta in preguntas:
+    
+    id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta = pregunta # esto (pregunta) es una lista, hacemos asignación múltiple
+
+    print(f"ID de la pregunta: {id_pregunta} \nEnfoque de la pregunta: {enfoque} \nPregunta: {pregunta}")
+    print(f"a){respuesta1:<15}b){respuesta2:<15}c){respuesta3:<15}d){respuesta4:<15} \n")
+
+  id_cambio = input("Ingresa el id de la pregunta que quieres cambiar: ")
+  valor = input("Que sector de la pregunta quieres cambiar?(enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta): ")
+  cambio = input("Ingresa el cambio: ")
+
+  for pregunta in preguntas:
+    
+    id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta = pregunta # esto (pregunta) es una lista, hacemos asignación múltiple
+    pregunta_lista = [id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta]
+
+    if id_pregunta == id_cambio: 
+    
+      if valor == "enfoque":
+        enfoque = cambio 
+
+      elif valor == "pregunta":
+        pregunta = cambio
+
+      elif valor == "respuesta1":
+        respuesta1 = cambio 
+
+      elif valor == "respuesta2":
+        respuesta2 = cambio
+
+      elif valor == "respuesta3":
+        repuesta3 = cambio
+
+      elif valor == "respuesta4":
+        respuesta4 = cambio 
+
+      elif valor == "correcta":
+        correcta = cambio 
+
+      pregunta_nueva=[ id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta]
+
+      print(f"ID de la pregunta: {id_pregunta} \nEnfoque de la pregunta: {enfoque} \nPregunta: {pregunta}")
+      print(f"a){respuesta1:<15}b){respuesta2:<15}c){respuesta3:<15}d){respuesta4:<15} \n")
+
+      respuesta= input("¿Está seguro de que quiere actualizar los datos de la pregunta? ")
+
+      if respuesta == "Si":
+        preguntas.remove(pregunta_lista)
+        preguntas.append(pregunta_nueva)
+
+      
+
+      break
+
+actualizar_pregunta()
+
+def estudiar_area():
+
+  area = input("Que area de enfoque quiere estudiar?: ")
+  cantidad = int(input("Cantidad de preguntas para desplegar:?: "))
+  
+  for pregunta in preguntas:
+
+    if cantidad <= 0:
+      break
+
+  else:
+    id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta = pregunta # esto (pregunta) es una lista, hacemos asignación múltiple
+
+    if enfoque == area:
+
+      print(f"ID de la pregunta: {id_pregunta} \nEnfoque de la pregunta: {enfoque} \nPregunta: {pregunta}")
+      print(f"a){respuesta1:<15}b){respuesta2:<15}c){respuesta3:<15}d){respuesta4:<15} \n")
+      cantidad -= 1
+
+estudiar_area()
+
+respuestas_correctas = 0
+respuestas_incorrectas = 0
+lista_notas = []
+
+
+def presentar_quiz():
+  import time
+
+  global preguntas
+  global respuestas_correctas
+  global respuestas_incorrectas
+  global usuarios
+
+  print("Bienvenido al Quiz \nPor favor escribe la respuesta correcta en el cuadro de texto cuándo se indique")
+
+  for num in range(10):
+    tiempo = 1200
+    inicio = time.time()
+
+      
+    pregunta = preguntas[num]
+
+    id, enfoque, texto_pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta = pregunta
+      
+    if enfoque == 1:
+      enfoque = "Lectura"
+    elif enfoque == 2:
+      enfoque = "Matemáticas"
+    else:
+      enfoque = "Lectura"
+  
+    print(f'{texto_pregunta}\n{respuesta1:<15}{respuesta2:<15}{respuesta3:<15}{respuesta4}\n')
+    respuesta = input("Escribe la respuesta correcta: ")
+    if respuesta == correcta:
+      respuestas_correctas += 1
+    else:
+      respuestas_incorrectas += 1
+      
+    fin = time.time()
+
+    total = round((tiempo - (fin - inicio)) / 60, 2)
+    print(f"\nEl tiempo restante son {total} minutos\n")
+    
+    calificacion = respuestas_correctas * 10
+
+    print(f"Tu calificación es: {calificacion}")
+    lista_notas.append(calificacion)
+
+presentar_quiz()
+
+def reportar_calificaciones():
+
+  global respuestas_correctas
+  global respuestas_incorrectas
+  global lista_notas
+
+  usuarios = len(lista_notas)
+  
+  suma = 0
+  for nota in lista_notas:
+    suma = suma + nota
+  
+  promedio = suma / len(lista_notas)
+
+  porcentaje_correctas = round(respuestas_correctas / (respuestas_correctas + respuestas_incorrectas) * 100, 2)
+  porcentaje_incorrectas = round(respuestas_incorrectas / (respuestas_correctas + respuestas_incorrectas) * 100, 2)
+  
+  print(f'{"Total de usuarios":<30}{usuarios}\n{"Promedio de calificaciones":<30}{promedio}\n{"Respuestas correctas":<30}{porcentaje_correctas}%\n{"Respuestas incorrectas":<30}{porcentaje_incorrectas}%')
+
+reportar_calificaciones()
+
+def salir():
+
+  print("Salida, terminaste, suerte")
+
