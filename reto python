@@ -1,37 +1,63 @@
-def cargar_archivo(nombre_archivo):
-  global preguntas
+preguntas = [['1', 'matemáticas', 'Pregunta 1', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['2', 'lectura', 'Pregunta 2', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['3', 'ciencias', 'Pregunta 3', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['4', 'matemáticas', 'Pregunta 4', 'R1', 'R2', 'R3', 'R4', 'RC'],
+             ['5', 'lectura', 'Pregunta 5', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['6', 'ciencias', 'Pregunta 6', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['7', 'matemáticas', 'Pregunta 7', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['8', 'lectura', 'Pregunta 8', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['9', 'ciencias', 'Pregunta 9', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['10', 'matemáticas', 'Pregunta 10', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['11', 'lectura', 'Pregunta 11', 'R1', 'R2', 'R3', 'R4', 'RC' ],
+             ['12', 'ciencias', 'Pregunta 12', 'R1', 'R2', 'R3', 'R4', 'RC' ]]
 
-  nombre = nombre_archivo + ".txt"
+preguntas_texto = " ".join([str(preguntas) for pregunta in preguntas])
 
-  with open(nombre,"r") as archivo:
-    for linea in archivo:
-      preguntas.append(linea.split(","))
+nombre = "nombre_archivo.txt"
 
-  for pregunta in preguntas:
-    pregunta[-1] = pregunta [-1][0:-1]
+f = open(nombre, "w")
+
+f.write(preguntas_texto)
+
+def cargar_archivo(nombre): #lee el archivo de las preguntas para poder ser utilizado durante el uso del programa
+
+  global preguntas_texto
+
+  preguntas = []
+
+  with open(nombre, "r") as archivo:  
+    
+    contenido = archivo.readlines() 
+
+    for elemento in contenido: 
+      linea = elemento.split(",") 
+      linea[7] = linea[7][:-1] 
+      preguntas.append(linea) 
   
-  print(preguntas)
-  
-  def guardar_archivo(nombre_archivo):
-  global preguntas 
+  return preguntas
 
-  nombre = nombre_archivo + ".txt"
+leer_archivo(nombre)
 
-  with open(nombre,"w") as archivo:
-    for pregunta in preguntas:
-      text_pregunta = ""
+def guardar_archivo(nombre, lista): #Guarda el archivo actualizado con los datos nuevos
 
-      for i,p in enumerate(pregunta):
-        texto_pregunta = ""
-        if i != len(pregunta) - 1:
-          textoo_pregunta += ","
-        else:
-          texto_pregunta + "\n"
-      archivo.write(texto_pregunta)
+  global prom
 
-  guardar_archivo ()
-  
-  def main():
+  with open(nombre, "w") as archivo: 
+
+    for pregunta in preguntas: 
+      
+      pregunta[1] = str(pregunta[1]) 
+      texto = ",".join(pregunta) 
+      archivo.write(texto + "\n") 
+
+
+
+guardar_archivo(nombre, preguntas)
+
+def main():
+
+  global nombre
+  f = open(nombre, "w")
 
   while True:
 
@@ -65,22 +91,11 @@ def cargar_archivo(nombre_archivo):
 main() 
 main()
 
-preguntas = [['1', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['2', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['3', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['4', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['5', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['6', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['7', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['8', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['9', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],''
-             ['10', 'Matemáticas', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['11', 'Lectura', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ],
-             ['12', 'Ciencias', 'Texto de la pregunta', 'R1', 'R2', 'R3', 'R4', 'RC' ]]
+def registrar_pregunta(nombre_archivo):
 
-def registrar_pregunta():
+  global nombre
 
-  global preguntas
+  cargar_archivo(nombre)
   
   print("Bienvenido a la opción para registrar preguntas, por favor sigue las instrucciones")
   id_pregunta = input("Ingresa el ID de la pregunta: ")
@@ -106,7 +121,9 @@ def registrar_pregunta():
   
   preguntas.append(pregunta)
 
-registrar_pregunta()
+  guardar_archivo(nombre, preguntas)
+
+registrar_pregunta(nombre)
 
 def menu():
 
@@ -123,9 +140,12 @@ def menu():
 
 menu()
 
-def actualizar_pregunta():
+def actualizar_pregunta(nombre_archivo):
  
+  global nombre
   global preguntas
+
+  cargar_archivo(nombre)
   
   print("Bienvenido a la opción para actualizar preguntas, por favor sigue las instrucciones \nA continuación se despliega la lista de preguntas guardadas\n")
 
@@ -177,18 +197,28 @@ def actualizar_pregunta():
 
       if respuesta == "Si":
         preguntas.remove(pregunta_lista)
-        preguntas.append(pregunta_nueva)
+        preguntas_nuevas.append(pregunta_nueva)
 
+    else:
+      pregunta_normal = [id_pregunta, enfoque, pregunta, respuesta1, respuesta2, respuesta3, respuesta4, correcta]
+      preguntas_nuevas.append(pregunta_normal) 
       
+    preguntas = preguntas_nuevas
 
-      break
+  cargar_archivo(nombre, preguntas)
 
-actualizar_pregunta()
+actualizar_pregunta(nombre)
 
-def estudiar_area():
+
+def estudiar_area(nombre_archivo):
+
+  global nombre
+
+  cargar_archivo(nombre_archivo)
 
   area = input("Que area de enfoque quiere estudiar?: ")
   cantidad = int(input("Cantidad de preguntas para desplegar:?: "))
+
   
   for pregunta in preguntas:
 
@@ -211,13 +241,16 @@ respuestas_incorrectas = 0
 lista_notas = []
 
 
-def presentar_quiz():
+def presentar_quiz(nombre_archivo):
   import time
 
+  global nombre
   global preguntas
   global respuestas_correctas
   global respuestas_incorrectas
   global usuarios
+
+  cargar_archivo(nombre)
 
   print("Bienvenido al Quiz \nPor favor escribe la respuesta correcta en el cuadro de texto cuándo se indique")
 
@@ -254,13 +287,17 @@ def presentar_quiz():
     print(f"Tu calificación es: {calificacion}")
     lista_notas.append(calificacion)
 
-presentar_quiz()
+presentar_quiz(nombre)
 
-def reportar_calificaciones():
+prom = ""
+def reportar_calificaciones(nombre_archivo):
 
+  global prom
   global respuestas_correctas
   global respuestas_incorrectas
   global lista_notas
+
+  cargar_archivo(nombre_archivo)
 
   usuarios = len(lista_notas)
   
@@ -275,9 +312,11 @@ def reportar_calificaciones():
   
   print(f'{"Total de usuarios":<30}{usuarios}\n{"Promedio de calificaciones":<30}{promedio}\n{"Respuestas correctas":<30}{porcentaje_correctas}%\n{"Respuestas incorrectas":<30}{porcentaje_incorrectas}%')
 
-reportar_calificaciones()
+  prom =(f"Usuarios: {usuarios} \nPromedio {promedio} \nRespuestas Correctas: {porcentaje_correctas} \nPorcentaje incorrecto: {porcentaje_incorrectas}")
+
+
+reportar_calificaciones(nombre)
 
 def salir():
 
   print("Salida, terminaste, suerte")
-
